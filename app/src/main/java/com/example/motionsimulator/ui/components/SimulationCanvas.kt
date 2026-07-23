@@ -94,8 +94,8 @@ fun SimulationCanvas(
                         val pointer = event.changes.firstOrNull { it.id == down.id }
                             ?: break
                         if (!pointer.pressed) break
-                        if (pointer.positionChanged()) {
-                            val delta = pointer.positionChange()
+                        val delta = pointer.position - pointer.previousPosition
+                        if (delta.x != 0f || delta.y != 0f) {
                             when (target) {
                                 "red"   -> onRedDrag(delta)
                                 "green" -> onGreenDrag(delta)
