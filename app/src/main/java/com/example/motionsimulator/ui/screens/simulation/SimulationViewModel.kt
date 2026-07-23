@@ -13,6 +13,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
@@ -194,7 +195,7 @@ class SimulationViewModel(application: Application) : AndroidViewModel(applicati
         val durationMs = (distance / pxPerMs).toLong().coerceAtLeast(16L)
         val startMs    = System.currentTimeMillis()
 
-        while (isActive) {
+        while (currentCoroutineContext().isActive) {
             val elapsed  = System.currentTimeMillis() - startMs
             val rawT     = (elapsed.toFloat() / durationMs).coerceIn(0f, 1f)
             val easedT   = AnimationUtils.applyEasing(rawT, _easingType.value)
